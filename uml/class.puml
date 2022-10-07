@@ -1,0 +1,36 @@
+@startuml
+class rd_kafka_t
+
+class rd_kafka_assignment_t
+
+class rd_kafka_topic_partition_list_t
+rd_kafka_topic_partition_list_t o-- "*" rd_kafka_topic_partition_t : contains
+
+class rd_kafka_topic_partition_t {
+    char *topic
+    int32_t      partition
+    int64_t      offset
+    void        *metadata
+    size_t       metadata_size
+    void        *opaque
+    rd_kafka_resp_err_t err
+    void       *_private
+}
+
+rd_kafka_topic_partition_t o-- "1" rd_kafka_toppar_t
+
+' topic - partition combination
+class rd_kafka_toppar_t {
+    int rktp_refcnt
+    too many members...
+}
+
+' rdkafka_topic.h
+class rd_kafka_topic_t {
+    int rktp_refcnt
+    rd_kafkap_str_t   *rkt_topic;
+    int rkt_partition_cnt
+}
+rd_kafka_topic_t o-- "*" rd_kafka_toppar_t : rkt_p
+
+@enduml
